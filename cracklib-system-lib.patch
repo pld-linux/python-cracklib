@@ -1,0 +1,43 @@
+--- cracklib-2.10.4/python/setup.py.in.orig	2023-04-02 20:15:05.000000000 +0200
++++ cracklib-2.10.4/python/setup.py.in	2026-11-17 21:35:06.549289006 +0100
+@@ -21,10 +21,9 @@ from setuptools import setup, Extension
+ 
+ extensions = [
+     Extension("_cracklib",
+-        ["@srcdir@/_cracklib.c"],
+-        include_dirs = ["@top_builddir@", "@top_srcdir@/lib"],
++        ["_cracklib.c"],
+         libraries = ["crack"],
+-        library_dirs = ["@top_builddir@/lib/.libs"]),
++        ),
+ ]
+ 
+ setup(
+@@ -41,7 +40,7 @@ convenience functions.
+     url="http://cracklib.sourceforge.net/",
+     license="GPLv2+",
+     py_modules=['cracklib', 'test_cracklib'],
+-    package_dir={'': '@srcdir@'},
++    package_dir={'': '.'},
+     ext_modules=extensions,
+     zip_safe=False,
+     classifiers=[
+--- cracklib-2.10.3/python/_cracklib.c.orig	2023-03-16 14:38:03.000000000 +0100
++++ cracklib-2.10.3/python/_cracklib.c	2026-11-17 22:15:13.469582932 +0100
+@@ -23,7 +23,15 @@
+  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  */
+ 
+-#include "config.h"
++#define HAVE_PTHREAD_H 1
++#define HAVE_SYS_STAT_H 1
++#define HAVE_LIBINTL_H 1
++#define HAVE_PTHREAD_H 1
++#define HAVE_ZLIB_H 1
++#define ENABLE_NLS 1
++#define PACKAGE "cracklib"
++#define LOCALEDIR "/usr/share/locale"
++
+ #ifdef PYTHON_H
+ #include PYTHON_H
+ #else
